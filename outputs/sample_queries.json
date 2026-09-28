@@ -13,7 +13,11 @@
         "text": "¿Puedo dejar mi equipaje después del check-out si mi vuelo sale por la noche? Sí, el guardado de equipaje después del check-out es gratuito hasta las 20:00 horas del mismo día.",
         "score": 0.5684
       }
-    ]
+    ],
+    "evaluation": {
+      "score": 10,
+      "reason": "Los fragmentos recuperados son directamente relevantes y la respuesta generada es completa y precisa, alineándose perfectamente con la información contextual."
+    }
   },
   {
     "user_question": "¿Cuánto cuesta la habitación doble estándar?",
@@ -29,7 +33,11 @@
         "text": "¿Qué pasa si pierdo la llave de mi habitación? Se cobra una penalidad de S/ 20 por reposición de llave o tarjeta magnética extraviada.\n\n¿Hay servicio de despertador? Sí, el personal de recepción puede coordinar llamadas de despertador o golpes en la puerta a la hora solicitada, sin costo adicional.",
         "score": 0.4578
       }
-    ]
+    ],
+    "evaluation": {
+      "score": 10,
+      "reason": "Los fragmentos tienen relación directa con la pregunta sobre la habitación doble estándar. La respuesta es correcta y completa, indicando el precio exacto y cumpliendo con la pregunta sin información adicional."
+    }
   },
   {
     "user_question": "¿Puedo llevar a mi mascota al hostal?",
@@ -45,6 +53,10 @@
         "text": "NIÑOS Y MASCOTAS\n\nLos niños son bienvenidos en Kené Alma Hostal. Los menores de 5 años no pagan si comparten cama con un adulto y no se solicita cama adicional. Para niños de 5 a 12 años se cobra el 50% de la tarifa de adulto en habitaciones dobles o familiares. No se permite el ingreso de mascotas, con excepción de perros guía debidamente identificados. Contamos con cunas disponibles sin costo adicional, sujetas a disponibilidad y bajo solicitud previa.",
         "score": 0.5354
       }
-    ]
+    ],
+    "evaluation": {
+      "score": 8,
+      "reason": "Los fragments de contexto son muy relevantes, explican claramente la política sobre mascotas. La respuesta es correcta y completa, aunque podría ser más directa sin sugerir el contacto."
+    }
   }
 ]

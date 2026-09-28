@@ -12,3 +12,4 @@ TOP_K = 2  # Entre 2 y 5
 
 INDEX_PATH = "data/index.json"
 PROMPT_PATH = "prompts/main_prompt.txt"
+EVALUATOR_PROMPT_PATH = "prompts/evaluator_prompt.txt"

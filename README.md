@@ -1,6 +1,6 @@
 # Kené Alma Hostal — Chatbot FAQ con RAG
 
-Chatbot de soporte basado en **RAG (Retrieval-Augmented Generation)** que responde preguntas frecuentes sobre Kené Alma Hostal, un hostal ficticio en Pucallpa, Perú. El sistema procesa un documento de FAQ en texto plano, lo divide en fragmentos (chunks), genera embeddings con la API de OpenAI y los almacena para poder recuperar la información relevante ante cada consulta del usuario, generando finalmente una respuesta en lenguaje natural con un LLM. Proyecto integrador del Módulo 2 (RAG) de la especialización AI Engineering de Henry.
+Chatbot de soporte basado en **RAG (Retrieval-Augmented Generation)** que responde preguntas frecuentes sobre Kené Alma Hostal, un hostal ficticio en Pucallpa, Perú. El sistema procesa un documento de FAQ en texto plano, lo divide en fragmentos (chunks), genera embeddings con la API de OpenAI y los almacena para poder recuperar la información relevante ante cada consulta del usuario, generando finalmente una respuesta en lenguaje natural con un LLM. Incluye además un agente evaluador (bonus) que audita automáticamente la calidad de las respuestas. Proyecto integrador del Módulo 2 (RAG) de la especialización AI Engineering de Henry.
 
 ## ¿Por qué RAG?
 
@@ -11,28 +11,28 @@ Un LLM por sí solo no conoce las políticas específicas de este hostal (no est
 1. Cloná el repositorio y entrá a la carpeta del proyecto:
 
 ```bash
-   git clone <url-del-repo>
-   cd faq_rag_chatbot
+git clone <url-del-repo>
+cd faq_rag_chatbot
 ```
 
 2. Creá y activá un entorno virtual:
 
 ```bash
-   python3 -m venv venv
-   source venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 ```
 
 3. Instalá las dependencias:
 
 ```bash
-   pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 4. Configurá tu API key de OpenAI:
 
 ```bash
-   cp .env.example .env
-   # editar .env y completar OPENAI_API_KEY=tu-key-real
+cp .env.example .env
+# editar .env y completar OPENAI_API_KEY=tu-key-real
 ```
 
 ## Uso
@@ -74,26 +74,38 @@ El script pide una pregunta por consola y devuelve un JSON como este:
 
 Más ejemplos de preguntas y respuestas en `outputs/sample_queries.json`.
 
+**3. (Bonus) Evaluar la calidad de las respuestas:**
+
+```bash
+python3 src/evaluate.py
+```
+
+Audita cada entrada de `outputs/sample_queries.json` con un agente evaluador y guarda el resultado en un campo `"evaluation": {"score": ..., "reason": ...}` dentro de cada una. Ver detalle en la sección "Bonus: agente evaluador" más abajo.
+
 ## Estructura del proyecto
 
+```
 faq_rag_chatbot/
 ├── data/
-│ ├── faq_document.txt # documento fuente del FAQ
-│ └── index.json # chunks + embeddings (generado por build_index.py)
+│   ├── faq_document.txt      # documento fuente del FAQ
+│   └── index.json            # chunks + embeddings (generado por build_index.py)
 ├── prompts/
-│ └── main_prompt.txt # template del prompt usado para generar respuestas
+│   ├── main_prompt.txt       # template del prompt usado para generar respuestas
+│   └── evaluator_prompt.txt  # template del prompt del agente evaluador (bonus)
 ├── src/
-│ ├── common/
-│ │ ├── config.py # configuración (rutas, modelos, parámetros)
-│ │ ├── schemas.py # modelos Pydantic (validación de datos)
-│ │ └── llm.py # wrappers a la API de OpenAI (embeddings y chat)
-│ ├── build_index.py # pipeline de datos: carga → chunking → embeddings → guardado
-│ └── query.py # pipeline de consultas: embedding → búsqueda → prompt → respuesta
+│   ├── common/
+│   │   ├── config.py         # configuración (rutas, modelos, parámetros)
+│   │   ├── schemas.py        # modelos Pydantic (validación de datos)
+│   │   └── llm.py            # wrappers a la API de OpenAI (embeddings, chat y evaluación)
+│   ├── build_index.py        # pipeline de datos: carga → chunking → embeddings → guardado
+│   ├── query.py              # pipeline de consultas: embedding → búsqueda → prompt → respuesta
+│   └── evaluate.py           # (bonus) agente evaluador de calidad de respuestas
 ├── outputs/
-│ └── sample_queries.json # ejemplos de preguntas y respuestas
+│   └── sample_queries.json   # ejemplos de preguntas, respuestas y evaluaciones
 ├── requirements.txt
 ├── .env.example
 └── README.md
+```
 
 ## Decisiones técnicas
 
@@ -113,6 +125,20 @@ Se calcula la similitud coseno (manual, con `numpy`) entre el embedding de la pr
 ### Almacenamiento
 
 Los embeddings se guardan en un archivo JSON (`data/index.json`) en vez de una base de datos, dado el tamaño reducido del proyecto (20 chunks). Cumple el mismo rol que una base vectorial para este caso de uso: persistencia de los vectores para consultarlos después.
+
+## Bonus: agente evaluador
+
+Se implementó un agente evaluador (`src/evaluate.py`) que audita automáticamente la calidad de cada respuesta generada. Recibe `user_question`, `system_answer` y `chunks_related`, y le pide a un segundo LLM que puntúe la respuesta de 0 a 10 evaluando dos dimensiones: **relevancia de los chunks recuperados** y **calidad/completitud de la respuesta**. Devuelve `{"score": int, "reason": str}` usando **structured outputs** nativos de la API de OpenAI (`response_format` con el schema de Pydantic `EvaluationResult`), en vez de solo pedir JSON por texto — esto garantiza que el modelo devuelva una estructura válida, no una sugerencia.
+
+**Cómo correrlo:**
+
+```bash
+python3 src/evaluate.py
+```
+
+Evalúa las 3 consultas de `outputs/sample_queries.json` y guarda el resultado en el campo `"evaluation"` de cada una.
+
+**Hallazgo interesante:** el evaluador calificó con 8-10/10 las 3 respuestas, incluso en el caso donde nuestra medición manual (ver "Limitación conocida" abajo) había detectado que uno de los chunks recuperados no era relevante. Esto refleja un comportamiento conocido de los evaluadores LLM ("LLM-as-judge"): tienden a evaluar de forma más holística —si la respuesta final quedó bien— en vez de auditar estrictamente cada paso intermedio del pipeline. Por eso el agente evaluador es un complemento útil, pero no reemplaza una medición manual rigurosa como la de la sección siguiente.
 
 ## Limitación conocida: calidad de recuperación
 
