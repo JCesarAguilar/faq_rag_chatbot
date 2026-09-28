@@ -28,8 +28,9 @@ def cosine_similarity(a: list[float], b: list[float]) -> float:
     return float(dot_product / (norm_a * norm_b))
 
 
-def search_similar_chunks(question: str, chunks: list[ChunkWithEmbedding],
-                           top_k: int = TOP_K) -> list[RelatedChunk]:
+def search_similar_chunks(
+    question: str, chunks: list[ChunkWithEmbedding], top_k: int = TOP_K
+) -> list[RelatedChunk]:
     """Genera el embedding de la pregunta y devuelve los top_k chunks
     más similares por similitud coseno, ordenados de mayor a menor score."""
     question_embedding = get_embeddings_batch([question])[0]

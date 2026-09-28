@@ -1,0 +1,50 @@
+[
+  {
+    "user_question": "¿Cuál es el horario de check-in y check-out?",
+    "system_answer": "El horario de check-in es a partir de las 14:00 horas y el check-out debe realizarse antes de las 11:00 horas.",
+    "chunks_related": [
+      {
+        "chunk_id": "faq_document_chunk_0003",
+        "text": "CHECK-IN Y CHECK-OUT\n\nEl horario de check-in es a partir de las 14:00 horas y el check-out debe realizarse antes de las 11:00 horas. Ofrecemos check-in anticipado y check-out tardío sujetos a disponibilidad, con un costo adicional de S/ 20 por cada bloque de 3 horas extra. Si el huésped llega antes del horario de check-in, puede dejar su equipaje en recepción sin costo adicional mientras espera. Para el check-in se solicita documento de identidad original (DNI o pasaporte) de todos los huéspedes registrados en la reserva.",
+        "score": 0.7134
+      },
+      {
+        "chunk_id": "faq_document_chunk_0018",
+        "text": "¿Puedo dejar mi equipaje después del check-out si mi vuelo sale por la noche? Sí, el guardado de equipaje después del check-out es gratuito hasta las 20:00 horas del mismo día.",
+        "score": 0.5684
+      }
+    ]
+  },
+  {
+    "user_question": "¿Cuánto cuesta la habitación doble estándar?",
+    "system_answer": "La habitación doble estándar cuesta desde S/ 90 por noche.",
+    "chunks_related": [
+      {
+        "chunk_id": "faq_document_chunk_0002",
+        "text": "HABITACIONES Y TARIFAS\n\nOfrecemos cuatro tipos de habitación: (1) Habitación Compartida Dormitorio (6 camas, baño compartido) desde S/ 35 por persona por noche; (2) Habitación Doble Estándar (cama matrimonial o dos camas individuales, baño privado, ventilador) desde S/ 90 por noche; (3) Habitación Doble Superior (aire acondicionado, baño privado, balcón) desde S/ 130 por noche; (4) Habitación Familiar (hasta 4 personas, dos ambientes, baño privado, aire acondicionado) desde S/ 180 por noche. Todas las tarifas incluyen desayuno continental y WiFi. Las tarifas pueden variar en temporada alta (julio y fiestas patrias, así como la semana de la Feria Regional de Pucallpa en octubre).",
+        "score": 0.5812
+      },
+      {
+        "chunk_id": "faq_document_chunk_0017",
+        "text": "¿Qué pasa si pierdo la llave de mi habitación? Se cobra una penalidad de S/ 20 por reposición de llave o tarjeta magnética extraviada.\n\n¿Hay servicio de despertador? Sí, el personal de recepción puede coordinar llamadas de despertador o golpes en la puerta a la hora solicitada, sin costo adicional.",
+        "score": 0.4578
+      }
+    ]
+  },
+  {
+    "user_question": "¿Puedo llevar a mi mascota al hostal?",
+    "system_answer": "No se permite el ingreso de mascotas, con excepción de perros guía debidamente identificados. Te sugiero contactar directamente al hostal para más información.",
+    "chunks_related": [
+      {
+        "chunk_id": "faq_document_chunk_0016",
+        "text": "¿El hostal tiene estacionamiento? Contamos con un espacio reducido para 3 motos o mototaxis sin costo adicional; no disponemos de estacionamiento para autos ni camionetas.\n\n¿Se puede fumar dentro del hostal? Está prohibido fumar en habitaciones y áreas techadas; existe una zona habilitada para fumadores en el jardín exterior.",
+        "score": 0.5454
+      },
+      {
+        "chunk_id": "faq_document_chunk_0006",
+        "text": "NIÑOS Y MASCOTAS\n\nLos niños son bienvenidos en Kené Alma Hostal. Los menores de 5 años no pagan si comparten cama con un adulto y no se solicita cama adicional. Para niños de 5 a 12 años se cobra el 50% de la tarifa de adulto en habitaciones dobles o familiares. No se permite el ingreso de mascotas, con excepción de perros guía debidamente identificados. Contamos con cunas disponibles sin costo adicional, sujetas a disponibilidad y bajo solicitud previa.",
+        "score": 0.5354
+      }
+    ]
+  }
+]

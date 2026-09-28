@@ -1,5 +1,6 @@
+from typing import List, Annotated
 from pydantic import BaseModel, Field
-from typing import List
+
 
 class Chunk(BaseModel):
     chunk_id: str
@@ -10,18 +11,22 @@ class Chunk(BaseModel):
     char_end: int
     token_count: int
 
+
 class ChunkWithEmbedding(Chunk):
     embedding: List[float]
+
 
 class RelatedChunk(BaseModel):
     chunk_id: str
     text: str
-    score: float
+    score: float = Field(ge=-1.0, le=1.0)
+
 
 class QueryResponse(BaseModel):
     user_question: str
     system_answer: str
-    chunks_related: List[RelatedChunk]
+    chunks_related: Annotated[List[RelatedChunk], Field(min_length=2, max_length=5)]
+
 
 class EvaluationResult(BaseModel):
     score: int = Field(ge=0, le=10)
